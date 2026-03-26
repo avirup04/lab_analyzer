@@ -1,0 +1,1 @@
+export const API_BASE_URL = "http://localhost/current_projects/lab_analyzer/lab-analyzer/api";
