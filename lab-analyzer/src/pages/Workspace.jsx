@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Activity, Beaker, TrendingUp, Calculator, Thermometer, Droplets, ArrowRight, ChevronLeft } from 'lucide-react';
 import MolarExtinctionCalc from '../components/MolarExtinctionCalc';
+import EnzymeKineticsCalc from '../components/EnzymeKineticsCalc';
 
 export default function Workspace() {
   const [activeModule, setActiveModule] = useState(null);
@@ -95,12 +96,18 @@ export default function Workspace() {
       )}
 
       {/* --- ACTIVE TOOL AREA --- */}
+      {/* --- ACTIVE TOOL AREA --- */}
       {activeModule && (
         <div className="animate-in fade-in slide-in-from-bottom-6 duration-700">
           <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-100 dark:border-slate-800 p-2 md:p-8">
+            
+            {/* Conditional Rendering for Modules */}
             {activeModule === 'molar_curve' ? (
               <MolarExtinctionCalc />
+            ) : activeModule === 'kinetics' ? (
+              <EnzymeKineticsCalc /> /* <-- YOUR NEW COMPONENT ADDED HERE */
             ) : (
+              /* Fallback for the remaining unbuilt modules */
               <div className="py-20 text-center">
                 <div className="inline-flex p-4 bg-slate-100 dark:bg-slate-800 rounded-full mb-4">
                   <Calculator size={32} className="text-slate-400" />
@@ -111,6 +118,7 @@ export default function Workspace() {
                 </p>
               </div>
             )}
+
           </div>
         </div>
       )}
