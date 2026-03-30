@@ -5,13 +5,12 @@ import { API_BASE_URL } from '../config';
 export default function Login() {
   const [rollNo, setRollNo] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate(); // This lets us redirect the user after they log in
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     
     try {
-      // Connect to the new login.php script
       const response = await fetch(`${API_BASE_URL}/login.php`, {
         method: "POST",
         headers: {
@@ -23,15 +22,24 @@ export default function Login() {
         }),
       });
 
-      // Read the response safely
       const rawText = await response.text();
       
       try {
         const data = JSON.parse(rawText);
         
         if (data.status === "success") {
-          // 1. SAVE the user data into the browser's memory
-          localStorage.setItem('user', JSON.stringify(data.user)); 
+          
+          // BULLETPROOF FIX: Construct the object manually.
+          // If PHP forgets to send roll_no, we just grab the 'rollNo' state 
+          // that they typed into the input box!
+          const userToSave = {
+            id: data.user.id,
+            name: data.user.name,
+            roll_no: data.user.roll_no || rollNo 
+          };
+
+          // SAVE the guaranteed user data into the browser's memory
+          localStorage.setItem('user', JSON.stringify(userToSave)); 
           
           alert(data.message);
           navigate('/lab-analyzer');

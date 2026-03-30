@@ -60,8 +60,8 @@ export default function EnzymeKineticsCalc() {
 
     exportToEnzymeExcel({
       title: title || "Kinetics Assay",
-      researcher: user.name,
-      rollNo: user.roll_no || "LSUG/124/25",
+      researcher: user.name || "Unknown Researcher", // <-- Fixed name fallback
+      rollNo: user.roll_no || "N/A",                 // <-- Fixed roll number fallback
       results, epsilon, pathLength, time,
       mmChartImage: mmBase64,
       lbChartImage: lbBase64
@@ -77,8 +77,8 @@ export default function EnzymeKineticsCalc() {
     try {
       await exportToEnzymePDF({
         title: title || "Kinetics Assay",
-        researcher: user.name,
-        rollNo: user.roll_no || "LSUG/124/25",
+        researcher: user.name || "Unknown Researcher", // <-- Fixed name fallback
+        rollNo: user.roll_no || "N/A",                 // <-- Fixed roll number fallback
         results, epsilon, pathLength, time,
         mmChartImage: mmBase64,
         lbChartImage: lbBase64

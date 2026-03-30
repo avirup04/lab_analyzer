@@ -49,8 +49,8 @@ export default function MolarExtinctionCalc() {
     if (chartRef.current) base64Image = chartRef.current.toBase64Image();
     exportToExcel({
       title: title || "Untitled Experiment",
-      researcher: user.name,
-      rollNo: user.roll_no || "LSUG/124/25",
+      researcher: user.name || "Unknown Researcher", // <-- Fixed name fallback
+      rollNo: user.roll_no || "N/A",                 // <-- Fixed roll number fallback
       results: results,
       rows: results.data,
       pathLength: pathLength,
@@ -64,8 +64,8 @@ export default function MolarExtinctionCalc() {
     try {
       await exportToPDF({
         title: title || "Untitled Experiment",
-        researcher: user.name || "Avirup Mukherjee", 
-        rollNo: user.roll_no || "LSUG/124/25",
+        researcher: user.name || "Unknown Researcher", // <-- Fixed name fallback
+        rollNo: user.roll_no || "N/A",                 // <-- Fixed roll number fallback
         results: results,
         rows: results.data,
         pathLength: pathLength,

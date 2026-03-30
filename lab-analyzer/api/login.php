@@ -12,8 +12,8 @@ if (isset($data->rollNo) && isset($data->password)) {
     $roll = $data->rollNo;
     $plain_password = $data->password;
 
-    // 4. Securely search the database for this Roll Number
-    $stmt = $conn->prepare("SELECT id, full_name, password FROM users WHERE roll_no = ?");
+    // 4. Securely search the database (ADDED roll_no HERE)
+    $stmt = $conn->prepare("SELECT id, full_name, roll_no, password FROM users WHERE roll_no = ?");
     $stmt->bind_param("s", $roll);
     $stmt->execute();
     
@@ -26,13 +26,14 @@ if (isset($data->rollNo) && isset($data->password)) {
         
         // 6. THE MAGIC CHECK: Verify the typed password against the encrypted hash
         if (password_verify($plain_password, $user['password'])) {
-            // Password matches! Send back a success message and the user's name.
+            // Password matches! Send back name AND ROLL NUMBER.
             echo json_encode([
                 "status" => "success", 
                 "message" => "Welcome back, " . $user['full_name'] . "!",
                 "user" => [
                     "id" => $user['id'],
-                    "name" => $user['full_name']
+                    "name" => $user['full_name'],
+                    "roll_no" => $user['roll_no'] // <--- THE FIX IS HERE!
                 ]
             ]);
         } else {
